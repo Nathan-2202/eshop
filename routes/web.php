@@ -1,55 +1,21 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReligionController;
-use App\Http\Controllers\ClassInfoController;
-use App\Http\Controllers\AdmissionUserController;
-use App\Http\Controllers\AdmissionApplicationController;
+use App\Http\Controllers\ColorController;
+use App\Http\Controllers\CategoryConroller;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(ReligionController::class)->group(function () {
-    Route::get('/religion', 'index')->name('religion.index');
-    Route::get('/religion/create', 'create')->name('religion.create');
-    Route::get('religion/{id}/edit', 'edit')->name('religion.edit');
-    Route::get('/religion/{id}', 'select')->name('religion.select');
-    Route::post('/religion/store', 'store')->name('religion.store');
-    Route::put('/religion/{religion}', 'update')->name('religion.update');
-    Route::delete('/religion/{religion}', 'delete')->name('religion.delete');
-    Route::post('/religion/upload', 'storeImage')->name('religion.storeimage');
-});
-Route::controller(ClassInfoController::class)->group(function () {
-    Route::get('/classinfo', 'index')->name('classinfo.index');
-    Route::get('/classinfo/create', 'insert')->name('classinfo.insert');
-    Route::post('/classinfo', 'create')->name('classinfo.create');
-    Route::get('/classinfo/{id}/edit', 'edit')->name('classinfo.edit');
-    Route::put('/classinfo/{classInfo}', 'update')->name('classinfo.update');
-    Route::delete('/classinfo/{clsinfo}', 'delete')->name('classinfo.delete');
+Route::controller(CategoryConroller::class)->group(function(){
+    Route::get('/category/create','create')->name('category.create');
+    Route::get('/category','index')->name('category.index');
+    Route::post('/category/store','store')->name('category.store');
 });
 
-Route::controller(AdmissionUserController::class)->group(function(){
-    Route::get('/admission/registrationcomplete','registrationcomplete')->name('admission.registrationcomplete');
-    Route::get('/registration/verification/{token}/{email}','verifyemail')->name('admission.verifyemail');
-    Route::get('/admission/register','registration')->name('admission.registration');
-    Route::post('/admission/register','register')->name('admission.register');
-    Route::get('/admission/login','loginpage')->name('admission.loginpage');
-    Route::post('/admission/login','login')->name('admission.login');
-    Route::get('/admission/thankyou','thankyou')->name('admission.thankyou');
+Route::controller(ColorController::class)->group(function(){
+    Route::get('/color/create','add')->name('color.create');
+    Route::get('/color','index')->name('color.index');
 });
-Auth::routes();
-
-Route::controller(AdmissionApplicationController::class)->group(function(){
-    Route::get('/admission/parents','family')->name('admission.parents');
-    Route::post('/admission/parents','parentsInfo')->name('admission.parentsinfo');
-    Route::get('/admission/editpersonal','editpersonal')->name('admission.editpersonal');
-    Route::get('/admission/personal','getPersonalInfo')->name('admission.getpersonalinfo');
-    Route::post('/admission/personal','personal')->name('admission.personal');
-    Route::post('/admission/upload','uploadDocuments')->name('admission.upload');
-    Route::get('/admission/{id}','show')->name('admission.show');
-    Route::post('/admission/submit','submit')->name('admission.submit');
-});
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
